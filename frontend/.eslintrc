@@ -1,0 +1,37 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "react-app",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "plugins": [
+    "react",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 100,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "semi": true,
+        "jsxSingleQuote": true,
+        "jsxBracketSameLine": false,
+        "arrowParens": "always",
+        "endOfLine": "auto",
+        "bracketSpacing": true
+      }
+    ],
+    "no-unused-vars": [
+      "error"
+    ]
+  }
+}
