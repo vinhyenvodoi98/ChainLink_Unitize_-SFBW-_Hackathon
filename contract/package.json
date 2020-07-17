@@ -17,6 +17,7 @@
   "dependencies": {
     "@chainlink/contracts": "^0.0.7-beta",
     "@chainlink/test-helpers": "^0.0.4",
+    "dotenv": "^8.2.0",
     "openzeppelin-solidity": "^3.1.0"
   },
   "devDependencies": {
