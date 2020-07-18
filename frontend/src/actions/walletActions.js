@@ -1,8 +1,7 @@
 import { MetaMark } from 'utils/getWeb3';
+import * as contractAction from 'actions/contractAction';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
-export const GET_USERINFO = 'GET_USERINFO';
-
 export const web3Connect = () => async (dispatch) => {
   var web3;
   try {
@@ -12,8 +11,8 @@ export const web3Connect = () => async (dispatch) => {
         type: WEB3_CONNECT,
         web3,
       });
-      // dispatch(contractAction.initContract());
       dispatch(getProfile());
+      dispatch(contractAction.initContract());
     }
   } catch (error) {
     alert(`Failed to load web3, accounts, or contract. Check console for details.`);
@@ -21,6 +20,7 @@ export const web3Connect = () => async (dispatch) => {
   }
 };
 
+export const GET_USERINFO = 'GET_USERINFO';
 export const getProfile = () => async (dispatch, getState) => {
   const state = getState();
   let web3 = state.wallet.web3;

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-// import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as contractAction from 'actions/contractAction';
 import { Paper, Button, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
       width: '450px',
-      height: '550px',
+      height: '520px',
       padding: theme.spacing(2),
     },
   },
@@ -70,27 +71,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PlayGround() {
+  const dispatch = useDispatch();
+  const contract = useSelector((state) => state.contract);
+
   const classes = useStyles();
   const [isUp, setIsUp] = useState(false);
   const listBeting = [0.01, 0.1, 1];
   const [betEth, setBetEth] = useState(0.01);
-  // const wallet = useSelector((state) => state.wallet);
+
+  useEffect(() => {
+    const getLastestTimeAndPrice = async () => {
+      dispatch(contractAction.getLastest());
+    };
+    getLastestTimeAndPrice();
+  }, [dispatch, contract.ContractReference]);
+
+  const updateLastest = () => {
+    dispatch(contractAction.getLastest());
+  };
 
   return (
     <div className={`${classes.root} ${classes.flexContentCenter}`}>
       <Paper elevation={4}>
+        {console.log(contract)}
         <div className={`${classes.flexContentCenter} ${classes.flexColumn}`}>
           <Button
             style={{ width: '120px', margin: 'auto' }}
             className={`${classes.fontWeight}`}
             variant='contained'
             color='primary'
+            onClick={() => updateLastest()}
           >
-            Get Price and Time
+            Update Price and Time
           </Button>
-          <Typography className={`${classes.title}`} variant='h6'>
-            {'1 ETH = 250$ in ' + new Date().toTimeString()}
-          </Typography>
+          {!!contract.lastPrice ? (
+            <Typography className={`${classes.title}`} variant='h6'>
+              {`1 ETH = ${contract.lastPrice}$ in ${contract.lastTime} GMT+0:00`}
+            </Typography>
+          ) : (
+            <Typography className={`${classes.title}`} variant='h6'>
+              Loading Price . . .
+            </Typography>
+          )}
+
           <Typography className={`${classes.title}`} variant='h6'>
             {'Price will go up or down in the next 10s'}
           </Typography>
@@ -135,7 +158,6 @@ export default function PlayGround() {
                   key={index}
                   variant='contained'
                   className={`${classes.goingUp} ${classes.buttonSize} ${classes.fontWeight}`}
-                  onClick={() => setIsUp(true)}
                 >
                   {bet.toString() + ' ETH'}
                 </Button>
