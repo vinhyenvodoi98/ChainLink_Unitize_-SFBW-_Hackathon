@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   appBar: {
-    backgroundColor: '#000000',
+    backgroundColor: '#4156b5',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -49,7 +49,10 @@ export default function Nav() {
           <Typography variant='h6' className={classes.title}>
             King of Gambling
           </Typography>
-          <p className={classes.mgr}>{wallet.shortAddress}</p>
+          <p className={classes.mgr}>
+            <strong>Address :</strong> {wallet.shortAddress} <strong>Balance :</strong>{' '}
+            {wallet.balance} Eth
+          </p>
           {!!wallet.web3 ? (
             <Button className={classes.badgePosition} variant='outlined' color='inherit'>
               <Badge className={classes.success} variant='dot' />

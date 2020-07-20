@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as contractAction from 'actions/contractAction';
 import { Paper, Button, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import SnackBars from 'components/snackbars';
+import Loading from 'components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,10 +92,13 @@ export default function PlayGround() {
     dispatch(contractAction.getLastest());
   };
 
+  const Bet = () => {
+    dispatch(contractAction.bet(isUp, betEth));
+  };
+
   return (
     <div className={`${classes.root} ${classes.flexContentCenter}`}>
       <Paper elevation={4}>
-        {console.log(contract)}
         <div className={`${classes.flexContentCenter} ${classes.flexColumn}`}>
           <Button
             style={{ width: '120px', margin: 'auto' }}
@@ -102,20 +107,22 @@ export default function PlayGround() {
             color='primary'
             onClick={() => updateLastest()}
           >
-            Update Price and Time
+            Update Price
           </Button>
           {!!contract.lastPrice ? (
             <Typography className={`${classes.title}`} variant='h6'>
               {`1 ETH = ${contract.lastPrice}$ in ${contract.lastTime} GMT+0:00`}
             </Typography>
           ) : (
-            <Typography className={`${classes.title}`} variant='h6'>
-              Loading Price . . .
-            </Typography>
+            <Loading />
           )}
 
           <Typography className={`${classes.title}`} variant='h6'>
-            {'Price will go up or down in the next 10s'}
+            {'Price will go up or down in next 3 hours'}
+          </Typography>
+
+          <Typography className={`${classes.title}`} variant='h6'>
+            {'If you win you will get x1.9 what you bet'}
           </Typography>
 
           {isUp ? (
@@ -180,9 +187,11 @@ export default function PlayGround() {
               className={`${classes.fontWeight}`}
               variant='contained'
               color='primary'
+              onClick={() => Bet()}
             >
               Send
             </Button>
+            {/* <SnackBars type='waiting' /> */}
           </Grid>
         </div>
       </Paper>

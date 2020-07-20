@@ -1,15 +1,16 @@
-import Contract from 'web3-eth-contract';
 import ReferenceConsumer from 'contracts/ReferenceConsumer.json';
 
 export const INIT_CONTRACT = 'INIT_CONTRACT';
 export const initContract = () => async (dispatch, getState) => {
   var state = getState();
   var web3 = state.wallet.web3;
-  Contract.setProvider(process.env.REACT_APP_RPC_URL);
+
   if (web3) {
     // networkId = 3
     var contractAddress = ReferenceConsumer.networks['3'].address;
-    var ContractReference = new Contract(ReferenceConsumer.abi, contractAddress);
+    var ContractReference = new web3.eth.Contract(ReferenceConsumer.abi, contractAddress, {
+      transactionConfirmationBlocks: 5,
+    });
     dispatch({
       type: INIT_CONTRACT,
       ContractReference,
@@ -45,5 +46,27 @@ export const getLastest = () => async (dispatch, getState) => {
       lastPrice,
       lastTime: formattedTime,
     });
+  }
+};
+
+export const BET = 'BET';
+export const bet = (user_choice, _amount) => async (dispatch, getState) => {
+  var state = getState();
+  // your address
+  var from = state.wallet.address;
+  var web3 = state.wallet.web3;
+  var contract = state.contract.ContractReference;
+  if (!!contract) {
+    _amount = web3.utils.toWei(_amount.toString(), 'ether');
+    user_choice ? (user_choice = 2) : (user_choice = 0);
+    await contract.methods
+      .beting(user_choice)
+      .send({ from: from, value: _amount })
+      .then(() => {
+        console.log('success');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 };
