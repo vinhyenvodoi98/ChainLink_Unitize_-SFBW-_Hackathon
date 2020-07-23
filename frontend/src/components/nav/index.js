@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { Badge, AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
+import SnackBars from 'components/snackbars';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,9 +36,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Nav() {
   const classes = useStyles();
   const wallet = useSelector((state) => state.wallet);
+  const contract = useSelector((state) => state.contract);
 
   return (
     <div className={classes.root}>
+      {contract.isLoading === 1 ? (
+        <SnackBars type='waiting' />
+      ) : contract.isLoading === 2 ? (
+        <SnackBars type='success' />
+      ) : contract.isLoading === 3 ? (
+        <SnackBars type='error' />
+      ) : (
+        <></>
+      )}
       <AppBar position='static' className={classes.appBar}>
         <Toolbar>
           <IconButton

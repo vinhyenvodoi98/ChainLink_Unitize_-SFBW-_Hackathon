@@ -49,7 +49,6 @@ export const getLastest = () => async (dispatch, getState) => {
   }
 };
 
-export const BET = 'BET';
 export const bet = (user_choice, _amount) => async (dispatch, getState) => {
   var state = getState();
   // your address
@@ -59,14 +58,25 @@ export const bet = (user_choice, _amount) => async (dispatch, getState) => {
   if (!!contract) {
     _amount = web3.utils.toWei(_amount.toString(), 'ether');
     user_choice ? (user_choice = 2) : (user_choice = 0);
+    dispatch(isLoading(1));
     await contract.methods
-      .beting(user_choice)
+      .beting(user_choice, _amount)
       .send({ from: from, value: _amount })
       .then(() => {
-        console.log('success');
+        // transaction success
+        dispatch(isLoading(2));
       })
       .catch((e) => {
-        console.log(e);
+        // transaction falls
+        dispatch(isLoading(3));
       });
   }
+};
+
+export const ISLOADING = 'ISLOADING';
+export const isLoading = (isLoading) => async (dispatch) => {
+  dispatch({
+    type: ISLOADING,
+    isLoading,
+  });
 };

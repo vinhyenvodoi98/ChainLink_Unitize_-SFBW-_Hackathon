@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as contractAction from 'actions/contractAction';
 import { Paper, Button, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SnackBars from 'components/snackbars';
 import Loading from 'components/Loading';
 
 const useStyles = makeStyles((theme) => ({
@@ -191,7 +190,6 @@ export default function PlayGround() {
             >
               Send
             </Button>
-            {/* <SnackBars type='waiting' /> */}
           </Grid>
         </div>
       </Paper>
