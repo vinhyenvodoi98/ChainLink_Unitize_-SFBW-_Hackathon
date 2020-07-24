@@ -5,6 +5,7 @@ const initialState = {
   lastPrice: null,
   lastTime: null,
   isLoading: 0, // 1 is loading, 2 is success, 3 is error
+  history: [],
 };
 
 const ContractReducer = (state = initialState, action) => {
@@ -24,6 +25,11 @@ const ContractReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: action.isLoading,
+      };
+    case actions.UPDATE_HISTORY:
+      return {
+        ...state,
+        history: action.history,
       };
     default:
       return state;

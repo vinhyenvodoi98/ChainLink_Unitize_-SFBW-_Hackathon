@@ -38,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#3599db',
     },
   },
+  unchanged: {
+    backgroundColor: '#4caf50',
+    '&:hover, &:focus': {
+      backgroundColor: '#4caf50',
+    },
+  },
   goingDown: {
     backgroundColor: '#8c2f51',
     '&:hover, &:focus': {
@@ -49,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
     borderTopLeftRadius: '20px',
     borderBottomRightRadius: '0px',
     borderBottomLeftRadius: '20px',
+  },
+  noBorderRadius: {
+    borderTopRightRadius: '0px',
+    borderTopLeftRadius: '0px',
+    borderBottomRightRadius: '0px',
+    borderBottomLeftRadius: '0px',
   },
   borderRadiusLeft: {
     borderTopRightRadius: '20px',
@@ -76,7 +88,7 @@ export default function PlayGround() {
   const contract = useSelector((state) => state.contract);
 
   const classes = useStyles();
-  const [isUp, setIsUp] = useState(false);
+  const [isUp, setIsUp] = useState(2);
   const listBeting = [0.01, 0.1, 1];
   const [betEth, setBetEth] = useState(0.01);
 
@@ -124,7 +136,7 @@ export default function PlayGround() {
             {'If you win you will get x1.9 what you bet'}
           </Typography>
 
-          {isUp ? (
+          {isUp === 0 ? (
             <Grid container className={classes.space} direction='row' justify='center'>
               <Button
                 variant='contained'
@@ -134,8 +146,38 @@ export default function PlayGround() {
               </Button>
               <Button
                 variant='contained'
+                className={`${classes.disable} ${classes.noBorderRadius} ${classes.buttonSize} ${classes.fontWeight}`}
+                onClick={() => setIsUp(1)}
+              >
+                Unchanged
+              </Button>
+              <Button
+                variant='contained'
                 className={`${classes.disable} ${classes.borderRadiusLeft} ${classes.buttonSize} ${classes.fontWeight}`}
-                onClick={() => setIsUp(false)}
+                onClick={() => setIsUp(2)}
+              >
+                Going Down
+              </Button>
+            </Grid>
+          ) : isUp === 1 ? (
+            <Grid container className={classes.space} direction='row' justify='center'>
+              <Button
+                variant='contained'
+                className={`${classes.disable} ${classes.borderRadiusRight} ${classes.buttonSize} ${classes.fontWeight}`}
+                onClick={() => setIsUp(0)}
+              >
+                Going Up
+              </Button>
+              <Button
+                variant='contained'
+                className={`${classes.unchanged} ${classes.noBorderRadius} ${classes.buttonSize} ${classes.fontWeight}`}
+              >
+                Unchanged
+              </Button>
+              <Button
+                variant='contained'
+                className={`${classes.disable} ${classes.borderRadiusLeft} ${classes.buttonSize} ${classes.fontWeight}`}
+                onClick={() => setIsUp(2)}
               >
                 Going Down
               </Button>
@@ -145,9 +187,16 @@ export default function PlayGround() {
               <Button
                 variant='contained'
                 className={`${classes.disable} ${classes.borderRadiusRight} ${classes.buttonSize} ${classes.fontWeight}`}
-                onClick={() => setIsUp(true)}
+                onClick={() => setIsUp(0)}
               >
                 Going Up
+              </Button>
+              <Button
+                variant='contained'
+                className={`${classes.disable} ${classes.noBorderRadius} ${classes.buttonSize} ${classes.fontWeight}`}
+                onClick={() => setIsUp(1)}
+              >
+                Unchanged
               </Button>
               <Button
                 variant='contained'
