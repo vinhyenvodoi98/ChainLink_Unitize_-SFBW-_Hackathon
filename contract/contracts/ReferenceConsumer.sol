@@ -19,7 +19,6 @@ contract ReferenceConsumer {
 
   address ceoAddress;              // address of ceo
   Bet[] public bets;               // array of Bet
-  uint256 public numberOfBet = 0;  //index
   uint256 private rewardAmount = 0;   //eth can't withdraw
   uint256[] public waitingBet;
 
@@ -62,13 +61,17 @@ contract ReferenceConsumer {
   }
 
   function BalanceCeoCanWithdraw() public view onlyCeo returns (uint256){
-      return address(this).balance - rewardAmount;
+    return address(this).balance - rewardAmount;
   }
 
   function CeoWithdraw(uint256 _amount) external {
     require(msg.sender == ceoAddress, 'Only manager');
     require(_amount <= address(this).balance - rewardAmount, 'Can only withdraw balance not in reward o');
     msg.sender.transfer(_amount);
+  }
+
+  function numberOfBet() public view returns (uint256){
+    return bets.length;
   }
 
   function beting(uint8 user_choice, uint256 _amount) external payable {
@@ -84,25 +87,26 @@ contract ReferenceConsumer {
     waitingBet.push(bets.length - 1);
 
     rewardAmount += (_amount*2 - _amount/10);
-    numberOfBet += 1;
   }
 
   function reward() public onlyCeo {
-      for (uint256 i = 0; i < waitingBet.length; i++) {
-        if (bets[waitingBet[i]].timeEnd <= ref.latestTimestamp()) {
-          if(bets[waitingBet[i]].lastPrice > ref.latestAnswer() && bets[waitingBet[i]].choice == 0 ||
-          bets[waitingBet[i]].lastPrice == ref.latestAnswer() && bets[waitingBet[i]].choice == 1 ||
-          bets[waitingBet[i]].lastPrice < ref.latestAnswer() && bets[waitingBet[i]].choice == 2
-          ){
-          bets[waitingBet[i]].timeEnd = ref.latestTimestamp();
-          bets[waitingBet[i]].status = 1;
+    for (uint256 i = 0; i < waitingBet.length; i++) {
+      if (bets[waitingBet[i]].timeEnd <= ref.latestTimestamp()) {
+        // if win
+        if(bets[waitingBet[i]].lastPrice < ref.latestAnswer() && bets[waitingBet[i]].choice == 0 ||
+        bets[waitingBet[i]].lastPrice == ref.latestAnswer() && bets[waitingBet[i]].choice == 1 ||
+        bets[waitingBet[i]].lastPrice > ref.latestAnswer() && bets[waitingBet[i]].choice == 2
+        ){
           bets[waitingBet[i]].isWin = 1;
-           rewardAmount -= ( bets[waitingBet[i]].amount*2 - bets[waitingBet[i]].amount/10 );
+          rewardAmount -= ( bets[waitingBet[i]].amount*2 - bets[waitingBet[i]].amount/10 );
           msg.sender.transfer(bets[waitingBet[i]].amount + bets[waitingBet[i]].amount - bets[waitingBet[i]].amount/10);
-            waitingBet[i] = waitingBet[waitingBet.length - 1];
-            waitingBet.pop();
-          }
         }
+        // not win
+        bets[waitingBet[i]].timeEnd = ref.latestTimestamp();
+        bets[waitingBet[i]].status = 1;
+        waitingBet[i] = waitingBet[waitingBet.length - 1];
+        waitingBet.pop();
       }
+    }
   }
 }
