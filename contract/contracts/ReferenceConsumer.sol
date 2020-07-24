@@ -73,7 +73,6 @@ contract ReferenceConsumer {
 
   function beting(uint8 user_choice, uint256 _amount) external payable {
     require(msg.value >= _amount, "Input not enough");
-    require(now <= ref.latestTimestamp() + 3600, "bet time has end.");
 
     // user_choice = 0 mean <
     // user_choice = 1 mean =
@@ -91,9 +90,9 @@ contract ReferenceConsumer {
   function reward() public onlyCeo {
       for (uint256 i = 0; i < waitingBet.length; i++) {
         if (bets[waitingBet[i]].timeEnd <= ref.latestTimestamp()) {
-          if(bets[waitingBet[i]].lastPrice < ref.latestAnswer() && bets[waitingBet[i]].choice == 0
-          || bets[waitingBet[i]].lastPrice == ref.latestAnswer() && bets[waitingBet[i]].choice == 1
-          || bets[waitingBet[i]].lastPrice > ref.latestAnswer() && bets[waitingBet[i]].choice == 2
+          if(bets[waitingBet[i]].lastPrice > ref.latestAnswer() && bets[waitingBet[i]].choice == 0 ||
+          bets[waitingBet[i]].lastPrice == ref.latestAnswer() && bets[waitingBet[i]].choice == 1 ||
+          bets[waitingBet[i]].lastPrice < ref.latestAnswer() && bets[waitingBet[i]].choice == 2
           ){
           bets[waitingBet[i]].timeEnd = ref.latestTimestamp();
           bets[waitingBet[i]].status = 1;
