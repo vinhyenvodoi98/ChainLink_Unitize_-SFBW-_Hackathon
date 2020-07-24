@@ -1,7 +1,6 @@
 <h1 align="center">Gambling King</h1>
-<p>
-  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
-</p>
+
+![alt](https://github.com/vinhyenvodoi98/ChainLink_Unitize_-SFBW-_Hackathon/blob/master/images/app.png)
 
 > ## Create abi symLink from contract to frontend
 
