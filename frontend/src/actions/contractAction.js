@@ -106,14 +106,14 @@ export const updateHistory = () => async (dispatch, getState) => {
       delete temp['7'];
 
       if (temp.choice === '0') temp.choice = 'Down';
-      else if (temp.choice === '1') temp.choice = 'UnChange';
+      else if (temp.choice === '1') temp.choice = 'UnChanged';
       else temp.choice = 'Up';
 
       if (temp.status === '0') {
         temp.status = 'Pending';
         temp.isWin = 'Pending';
       } else {
-        if (temp.isWin === '0') temp.isWin = 'Win';
+        if (temp.isWin === '1') temp.isWin = 'Win';
         else temp.isWin = 'Lose';
         temp.status = 'Done';
       }
@@ -140,6 +140,7 @@ export const updateHistory = () => async (dispatch, getState) => {
     }
     Promise.all(promises)
       .then((results) => {
+        console.log(results);
         dispatch({
           type: UPDATE_HISTORY,
           history: results,
