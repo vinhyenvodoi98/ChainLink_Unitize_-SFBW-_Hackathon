@@ -1,4 +1,4 @@
-import { MetaMark } from 'utils/getWeb3';
+import { MetaMask } from 'utils/getWeb3';
 import * as contractAction from 'actions/contractAction';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
@@ -6,7 +6,7 @@ export const web3Connect = () => async (dispatch) => {
   var web3;
   try {
     if (window.web3) {
-      web3 = await MetaMark();
+      web3 = await MetaMask();
       dispatch({
         type: WEB3_CONNECT,
         web3,

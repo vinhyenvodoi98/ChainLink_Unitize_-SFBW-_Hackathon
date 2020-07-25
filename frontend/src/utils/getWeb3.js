@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 
-const MetaMark = async () => {
+const MetaMask = async () => {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
   if (window.ethereum) {
     const web3 = new Web3(window.ethereum);
@@ -29,4 +29,4 @@ const MetaMark = async () => {
   }
 };
 
-export { MetaMark };
+export { MetaMask };
