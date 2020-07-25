@@ -93,9 +93,9 @@ contract ReferenceConsumer {
     for (uint256 i = 0; i < waitingBet.length; i++) {
       if (bets[waitingBet[i]].timeEnd <= ref.latestTimestamp()) {
         // if win
-        if(bets[waitingBet[i]].lastPrice < ref.latestAnswer() && bets[waitingBet[i]].choice == 0 ||
-        bets[waitingBet[i]].lastPrice == ref.latestAnswer() && bets[waitingBet[i]].choice == 1 ||
-        bets[waitingBet[i]].lastPrice > ref.latestAnswer() && bets[waitingBet[i]].choice == 2
+        if((bets[waitingBet[i]].lastPrice < ref.latestAnswer() && bets[waitingBet[i]].choice == 0) ||
+        (bets[waitingBet[i]].lastPrice == ref.latestAnswer() && bets[waitingBet[i]].choice == 1) ||
+        (bets[waitingBet[i]].lastPrice > ref.latestAnswer() && bets[waitingBet[i]].choice == 2)
         ){
           bets[waitingBet[i]].isWin = 1;
           rewardAmount -= ( bets[waitingBet[i]].amount*2 - bets[waitingBet[i]].amount/10 );

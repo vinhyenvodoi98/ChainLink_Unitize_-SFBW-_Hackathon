@@ -2,13 +2,21 @@
 
 ![alt](https://github.com/vinhyenvodoi98/ChainLink_Unitize_-SFBW-_Hackathon/blob/master/images/app.png)
 
+# Live
+
+https://king-of-gambling.firebaseapp.com
+
+## Video demo
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/wmCB-W_zljQ/0.jpg)](https://youtu.be/wmCB-W_zljQ)
+
 # King Of Gambling Dapp
 This demo includes 2 parts:
 
 1. the browser UI (the frontend)
 2. the Contract (the backend)
 
-This application is deployed on ethereum's testnet (Ropsten network). This is a betting application for the price of ETH will go up or down or unchanged within the next 3 hours (because when using the Chainlink reference data contract every after 10800 seconds, aggregator smart contract calls oracles to get the new trusted answer). The person who correct prediction will be awarded 1.9 times the bet amount .
+This application is deployed on ethereum's testnet (Ropsten network). This is a betting application for the price of ETH will go up or down or unchanged within the next 3 hours (because when using the `Chainlink reference data contract` every after 10800 seconds, aggregator smart contract calls oracles to get the new trusted answer). The person who correct prediction will be awarded 1.9 times the bet amount .
 
 `If in the future time to get price of the chainlink reference contract is faster, then the bet time will be less than 3 hours.`
 
@@ -63,5 +71,3 @@ yarn start
 ```sh
 ln -s $PWD/contract/build/contracts $PWD/frontend/src
 ```
-
-## Here's the video Demo:
