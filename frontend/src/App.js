@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import useInterval from 'utils/useInterval';
 import * as walletActions from './actions/walletActions';
 import Nav from 'components/nav';
 import './App.css';
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const wallet = useSelector((state) => state.wallet);
 
   useEffect(() => {
     const getAddress = () => {
@@ -25,6 +27,10 @@ function App() {
     };
     getAddress();
   });
+
+  useInterval(() => {
+    if (wallet.web3) dispatch(walletActions.getProfile());
+  }, 2000);
 
   return (
     <div className='App'>

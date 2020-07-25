@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#5db45c',
   },
   loading: {
-    backgroundImage: 'url(http://localhost:3000/money.gif)',
+    backgroundImage: 'url(/money.gif)',
     backgroundSize: '400px',
     margin: 'auto',
     width: '300px',

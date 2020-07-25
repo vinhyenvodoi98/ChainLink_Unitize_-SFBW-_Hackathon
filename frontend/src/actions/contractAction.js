@@ -105,9 +105,9 @@ export const updateHistory = () => async (dispatch, getState) => {
       delete temp['6'];
       delete temp['7'];
 
-      if (temp.choice === '0') temp.choice = 'Down';
+      if (temp.choice === '0') temp.choice = 'Up';
       else if (temp.choice === '1') temp.choice = 'UnChanged';
-      else temp.choice = 'Up';
+      else temp.choice = 'Down';
 
       if (temp.status === '0') {
         temp.status = 'Pending';
@@ -134,13 +134,12 @@ export const updateHistory = () => async (dispatch, getState) => {
 
     // let temp = await contract.methods.bets(0).call({ from });
     // console.log(temp);
-    for (var i = historyIndex - 1; i > historyIndex - 10; --i) {
+    for (var i = historyIndex - 1; i > historyIndex - 9; --i) {
       if (i < 0) break;
       promises.push(getDataAsync(i));
     }
     Promise.all(promises)
       .then((results) => {
-        console.log(results);
         dispatch({
           type: UPDATE_HISTORY,
           history: results,
